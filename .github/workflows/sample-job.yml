@@ -25,5 +25,5 @@ jobs:
         echo "Hello, world!"
         mkdir my_directory
         cd my_directory
-        touch my_file.txt
+        touch myfile.txt
         ls -l
