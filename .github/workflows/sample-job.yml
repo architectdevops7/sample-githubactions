@@ -19,11 +19,14 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1 # Specify your AWS region here
+        aws-region: us-east-1
         aws-ecr-repo-url: public.ecr.aws/d8s7n2k2/dockerimages
     
     - name: Login to Amazon ECR
-      run: aws ecr get-login-password --region $aws-region | docker login --username AWS --password-stdin $aws-ecr-repo-url
+      run: |
+        aws-region: us-east-1
+        aws-ecr-repo-url: public.ecr.aws/d8s7n2k2/dockerimages
+        aws ecr get-login-password --region $aws-region | docker login --username AWS --password-stdin $aws-ecr-repo-url
       
     - name: Build Docker image
       uses: docker/build-push-action@v2
