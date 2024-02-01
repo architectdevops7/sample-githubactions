@@ -1,9 +1,9 @@
-name: Java CI with Maven
+name: Inline Shell and Checkout Example
 
 on:
   push:
     branches:
-      - main  # Change this to your main branch name
+      - main
 
 jobs:
   build:
@@ -13,11 +13,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
       
-    - name: Set up JDK
-      uses: actions/setup-java@v2
-      with:
-        java-version: '11'  # Change this to the version of JDK you want to use
-        distribution: 'adopt'
-        
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
+    - name: Run inline shell commands
+      run: |
+        echo "Hello, world!"
+        mkdir my_directory
+        cd my_directory
+        touch my_file.txt
+        ls -l
