@@ -1,9 +1,16 @@
-name: Inline Shell and Checkout Example
+name: Event-based Workflow
 
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
+  issues:
+    types: [opened, closed]
+  schedule:
+    - cron: '* * * * *'
 
 jobs:
   build:
@@ -20,14 +27,3 @@ jobs:
         cd my_directory
         touch my_file.txt
         ls -l
-
-  test:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      
-    - name: Run tests
-      run: |
-        echo "Running tests..."
