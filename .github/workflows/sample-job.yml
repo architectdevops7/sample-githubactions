@@ -23,10 +23,7 @@ jobs:
         aws-ecr-repo-url: public.ecr.aws/d8s7n2k2/dockerimages
     
     - name: Login to Amazon ECR
-      run: |
-        aws-region=us-east-1
-        aws-ecr-repo-url=public.ecr.aws/d8s7n2k2/dockerimages
-        aws ecr get-login-password --region $aws-region | docker login --username AWS --password-stdin $aws-ecr-repo-url
+      run: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/d8s7n2k2/dockerimages
       
     - name: Build Docker image
       uses: docker/build-push-action@v2
