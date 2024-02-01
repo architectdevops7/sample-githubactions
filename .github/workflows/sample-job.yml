@@ -24,4 +24,4 @@ jobs:
         with:
           context: DockerFileFolder/  # Path to the folder containing your Dockerfile
           push: true
-          tags: architectdevops7/nodechatapp:latest  # Tag for your Docker image
+          tags: architectdevops7/nodechatapp:v1  # Tag for your Docker image
