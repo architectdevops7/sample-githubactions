@@ -1,4 +1,4 @@
-name: Build and Push Docker image to Docker Hub
+name: Build and Push Docker Image to ECR
 
 on:
   push:
@@ -6,22 +6,27 @@ on:
       - main
 
 jobs:
-  push_to_registry:
-    name: Push Docker image to Docker Hub
+  build_and_push:
+    name: Build and Push Docker Image
     runs-on: ubuntu-latest
-    steps:
-      - name: Check out the repo
-        uses: actions/checkout@v3
-      
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
     
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v4
-        with:
-          context: DockerFileFolder/  # Path to the folder containing your Dockerfile
-          push: true
-          tags: architectdevops7/nodechatapp:v1  # Tag for your Docker image
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1 # Specify your AWS region here
+    
+    - name: Login to Amazon ECR
+      run: aws ecr get-login-password --region <your-region> | docker login --username AWS --password-stdin <your-ecr-repository-url>
+      
+    - name: Build Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: DockerFileFolder/
+        push: true
+        tags: dockerimages:latest  # Tag for your Docker image
