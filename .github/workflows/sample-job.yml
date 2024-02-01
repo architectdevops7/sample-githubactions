@@ -31,4 +31,4 @@ jobs:
       with:
         context: DockerFileFolder/
         push: true
-        tags: dockerimages:latest  # Tag for your Docker image
+        tags: dockerimages:latest
