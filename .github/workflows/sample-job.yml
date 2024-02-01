@@ -1,29 +1,27 @@
-name: Event-based Workflow
+name: Build and Push Docker image to Docker Hub
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
-  issues:
-    types: [opened, closed]
-  schedule:
-    - cron: '* * * * *'
 
 jobs:
-  build:
+  push_to_registry:
+    name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Check out the repo
+        uses: actions/checkout@v3
       
-    - name: Run inline shell commands
-      run: |
-        echo "Hello, world!"
-        mkdir my_directory
-        cd my_directory
-        touch myfile.txt
-        ls -l
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+    
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: DockerFileFolder/  # Path to the folder containing your Dockerfile
+          push: true
+          tags: architectdevops7/nodechatapp:latest  # Tag for your Docker image
