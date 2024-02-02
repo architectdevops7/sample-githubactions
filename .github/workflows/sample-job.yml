@@ -22,6 +22,6 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: Dockerfilefolder/  # Path to the folder containing your Dockerfile
+          context: .  # Path to the folder containing your Dockerfile
           push: true
           tags: architectdevops7/nodechatapp:v2  # Tag for your Docker image
